@@ -19,16 +19,27 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find(params[:id])
+    if session[:user_id] == @user.id
+      @user = User.find(params[:id])
+    else
+      # 他のユーザーの基本情報の編集画面は表示できません
+      redirect_to root_path , notice: '他のユーザーの基本情報の編集画面は表示できません'
+    end
   end
   
   def update
-    if @user.update(user_params)
-      # 保存に成功した場合はトップページへリダイレクト
-      redirect_to root_path , notice: '基本情報を編集しました'
+    if session[:user_id] == @user.id
+      # ログインしているユーザーの情報を変更
+      if @user.update(user_params)
+        # 保存に成功した場合はトップページへリダイレクト
+        redirect_to root_path , notice: '基本情報を編集しました'
+      else
+        # 保存に失敗した場合は編集画面へ戻す
+        render 'edit'
+      end
     else
-      # 保存に失敗した場合は編集画面へ戻す
-      render 'edit'
+      #他のユーザーの情報は変更不可
+        redirect_to root_path , notice: '他のユーザーの基本情報は編集できません'
     end
   end
 
