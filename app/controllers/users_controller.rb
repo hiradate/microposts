@@ -19,7 +19,8 @@ class UsersController < ApplicationController
   end
 
   def edit
-    if session[:user_id] == @user.id
+    # if session[:user_id] == @user.id ログインユーザーの判断方法を変更
+    if current_user == @user
       @user = User.find(params[:id])
     else
       # 他のユーザーの基本情報の編集画面は表示できません
@@ -28,7 +29,8 @@ class UsersController < ApplicationController
   end
   
   def update
-    if session[:user_id] == @user.id
+    # if session[:user_id] == @user.id ログインユーザーの判断方法を変更
+    if current_user == @user
       # ログインしているユーザーの情報を変更
       if @user.update(user_params)
         # 保存に成功した場合はトップページへリダイレクト
