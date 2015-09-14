@@ -2,3 +2,7 @@
   <%= gravatar_for @user %>
   <%= @user.name %>
 </h1>
+<p>emal:<%= @user.email %></p>
+<p>profile:<%= @user.profile %></p>
+<p>country:<%= @user.country %></p>
+<p><a href="<%=  @user.id %>/edit">情報の編集はこちら</a></p>
