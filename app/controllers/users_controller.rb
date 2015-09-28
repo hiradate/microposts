@@ -18,6 +18,16 @@ class UsersController < ApplicationController
       render 'new'
     end
   end
+  
+  def followings # フォローしているユーザー
+   @user = User.find(params[:id])
+   @following_users = @user.following_users
+  end
+  
+  def followers # フォローされているユーザー
+    @user = User.find(params[:id])
+    @follower_users = @user.follower_users
+  end
 
   private
 

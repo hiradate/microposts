@@ -9,10 +9,18 @@ class User < ActiveRecord::Base
   validates :profile, length: { maximum: 64 }
   validates :country, length: { maximum: 64 }
   has_many :microposts
+  
+  #フォローしている
   has_many :following_relationships, class_name:  "Relationship",
                                      foreign_key: "follower_id",
                                      dependent:   :destroy
   has_many :following_users, through: :following_relationships, source: :followed
+  
+  #フォローされている
+  has_many :follower_relationships, class_name:  "Relationship",
+                                    foreign_key: "followed_id",
+                                    dependent:   :destroy
+  has_many :follower_users, through: :follower_relationships, source: :follower
   
   # 他のユーザーをフォローする
   def follow(other_user)
