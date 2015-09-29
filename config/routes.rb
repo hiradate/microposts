@@ -6,10 +6,17 @@ Rails.application.routes.draw do
   get    'login'   => 'sessions#new'
   post   'login'   => 'sessions#create'
   delete 'logout'  => 'sessions#destroy'
-
-  resources :users
-  get    'users/:id/followings'   => 'users#followings'
-  get    'users/:id/followers'   => 'users#followers'
+  
+  #resources :users
+#  get    'users/:id/followings'   => 'users#followings'
+#  get    'users/:id/followers'   => 'users#followers'
+# ルーティングにアクションを追加↓
+  resources :users do
+    member do
+      get 'followings'
+      get 'followers'
+    end
+  end
 
   resources :sessions, only: [:new, :create, :destroy]
   
